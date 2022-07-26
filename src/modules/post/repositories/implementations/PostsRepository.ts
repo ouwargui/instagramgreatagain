@@ -13,7 +13,7 @@ class PostsRepository implements IPostsRepository {
   async create({author_id, description, pics}: ICreatePostDTO): Promise<Post> {
     return this.db.post.create({
       data: {
-        author_id,
+        author_id: Number(author_id),
         description,
         pics,
         created_at: new Date(),
