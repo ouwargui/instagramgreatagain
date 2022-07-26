@@ -16,13 +16,14 @@ model Account {
   password String
   created_at DateTime
   updated_at DateTime @default(now())
-  user User @relation(fields: [user_id], references: [id])
-  user_id Int @unique
+  user User?
+  user_id Int? @unique
 }
 
 model User {
   id Int @id @default(autoincrement()) @unique
-  account Account?
+  account Account @relation(fields: [account_id], references: [id])
+  account_id Int @unique
   username String
   bio String
   profile_pic String
