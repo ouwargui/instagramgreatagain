@@ -1,6 +1,6 @@
 import {IAuthenticator} from '../../../../infra/authentication/IAuthenticator';
 import {IEncrypter} from '../../../../infra/criptography/IEncrypter';
-import AccountRepository from '../../repositories/implementations/AccountRepository';
+import {IAccountRepository} from '../../repositories/IAccountRepository';
 
 interface IAuthAccount {
   email: string;
@@ -8,12 +8,12 @@ interface IAuthAccount {
 }
 
 class AuthAccountUseCase {
-  private accountRepository: AccountRepository;
+  private accountRepository: IAccountRepository;
   private readonly encrypter: IEncrypter;
   private readonly authenticator: IAuthenticator;
 
   constructor(
-    accountRepository: AccountRepository,
+    accountRepository: IAccountRepository,
     encrypter: IEncrypter,
     authenticator: IAuthenticator,
   ) {

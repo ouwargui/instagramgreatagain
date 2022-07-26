@@ -1,6 +1,6 @@
 import {IEncrypter} from '../../../../infra/criptography/IEncrypter';
 import {Account} from '../../models/Account';
-import AccountRepository from '../../repositories/implementations/AccountRepository';
+import {IAccountRepository} from '../../repositories/IAccountRepository';
 import AuthAccountUseCase from '../authAccount/AuthAccountUseCase';
 
 interface ICreateAccountRequest {
@@ -9,13 +9,13 @@ interface ICreateAccountRequest {
 }
 
 class CreateAccountUseCase {
-  private accountRepository: AccountRepository;
+  private accountRepository: IAccountRepository;
   private authAccountUseCase: AuthAccountUseCase;
   private readonly encrypter: IEncrypter;
 
   constructor(
     encrypter: IEncrypter,
-    accountRepository: AccountRepository,
+    accountRepository: IAccountRepository,
     authAccountUseCase: AuthAccountUseCase,
   ) {
     this.accountRepository = accountRepository;
