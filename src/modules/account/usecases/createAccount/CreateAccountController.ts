@@ -1,8 +1,7 @@
 import {Request, Response} from 'express';
-import {Controller} from '../../../../interfaces/Controller';
 import CreateAccountUseCase from './CreateAccountUseCase';
 
-class CreateAccountController implements Controller {
+class CreateAccountController {
   private createAccountUseCase: CreateAccountUseCase;
 
   constructor(createAccountUseCase: CreateAccountUseCase) {

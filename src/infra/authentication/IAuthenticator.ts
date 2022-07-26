@@ -1,4 +1,4 @@
-import {JwtPayload, SignOptions, VerifyOptions} from 'jsonwebtoken';
+import {JwtPayload} from 'jsonwebtoken';
 
 export interface IAuthenticator {
   sign(payload: string, subject?: string): string;
