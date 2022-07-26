@@ -1,5 +1,7 @@
+import {IEncrypter} from '../../../../infra/criptography/IEncrypter';
 import {Account} from '../../models/Account';
 import AccountRepository from '../../repositories/implementations/AccountRepository';
+import AuthAccountUseCase from '../authAccount/AuthAccountUseCase';
 
 interface ICreateAccountRequest {
   email: string;
@@ -8,12 +10,23 @@ interface ICreateAccountRequest {
 
 class CreateAccountUseCase {
   private accountRepository: AccountRepository;
+  private authAccountUseCase: AuthAccountUseCase;
+  private readonly encrypter: IEncrypter;
 
-  constructor(accountRepository: AccountRepository) {
+  constructor(
+    encrypter: IEncrypter,
+    accountRepository: AccountRepository,
+    authAccountUseCase: AuthAccountUseCase,
+  ) {
     this.accountRepository = accountRepository;
+    this.authAccountUseCase = authAccountUseCase;
+    this.encrypter = encrypter;
   }
 
-  async execute({email, password}: ICreateAccountRequest): Promise<Account> {
+  async execute({
+    email,
+    password,
+  }: ICreateAccountRequest): Promise<{accountCreated: Account; token: string}> {
     if (!email || !password) {
       throw new Error('Missing required fields');
     }
@@ -24,12 +37,16 @@ class CreateAccountUseCase {
       throw new Error('User already exists');
     }
 
+    const hashPassword = await this.encrypter.encrypt(password);
+
     const response = await this.accountRepository.createAccount({
       email,
-      password,
+      password: hashPassword,
     });
 
-    return response;
+    const token = await this.authAccountUseCase.execute({email, password});
+
+    return {accountCreated: response, token};
   }
 }
 

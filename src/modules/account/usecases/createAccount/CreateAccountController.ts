@@ -12,12 +12,12 @@ class CreateAccountController implements Controller {
   async handle(req: Request, res: Response): Promise<Response> {
     const {email, password} = req.body;
 
-    const accountCreated = await this.createAccountUseCase.execute({
+    const {accountCreated, token} = await this.createAccountUseCase.execute({
       email,
       password,
     });
 
-    return res.status(201).json({account: accountCreated});
+    return res.status(201).json({account: accountCreated, token});
   }
 }
 

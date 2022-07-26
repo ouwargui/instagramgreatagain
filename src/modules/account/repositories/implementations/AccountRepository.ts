@@ -1,24 +1,20 @@
 import {PrismaClient} from '@prisma/client';
 import PrismaRepository from '../../../../db/PrismaRepository';
-import {IEncrypter} from '../../../../infra/criptography/IEncrypter';
 import {Account} from '../../models/Account';
 import {IAccountRepository, ICreateAccountDTO} from '../IAccountRepository';
 
 class AccountRepository implements IAccountRepository {
   private db: PrismaClient;
-  private readonly encrypter: IEncrypter;
 
-  constructor(encrypter: IEncrypter) {
+  constructor() {
     this.db = PrismaRepository.getInstance();
-    this.encrypter = encrypter;
   }
 
   async createAccount({email, password}: ICreateAccountDTO): Promise<Account> {
-    const hashPassword = await this.encrypter.encrypt(password);
     return this.db.account.create({
       data: {
         email,
-        password: hashPassword,
+        password,
         created_at: new Date(),
       },
     });

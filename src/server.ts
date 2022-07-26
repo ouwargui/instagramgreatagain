@@ -1,7 +1,11 @@
+import 'dotenv/config';
 import 'express-async-errors';
 import express from 'express';
 import {routes} from './routes';
 import {ErrorHandler} from './middlewares/ErrorHandler';
+import {checkVars} from './config/env';
+
+checkVars();
 
 const app = express();
 
