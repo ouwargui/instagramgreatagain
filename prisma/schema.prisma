@@ -1,0 +1,83 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Account {
+  id Int @id @default(autoincrement()) @unique
+  email String @unique
+  password String
+  created_at DateTime
+  updated_at DateTime @default(now())
+  user User @relation(fields: [user_id], references: [id])
+  user_id Int @unique
+}
+
+model User {
+  id Int @id @default(autoincrement()) @unique
+  account Account?
+  username String
+  bio String
+  profile_pic String
+  posts Post[]
+  following User[] @relation("userfollows")
+  followers User[] @relation("userfollows")
+  chats Chat[]
+  likes Like[]
+  comments Comment[]
+  messages Message[]
+}
+
+model Post {
+  id Int @id @default(autoincrement()) @unique
+  author User @relation(fields: [author_id], references: [id])
+  author_id Int
+  pics String[]
+  description String
+  likes Like[]
+  comments Comment[]
+  created_at DateTime
+}
+
+model Like {
+  id Int @id @default(autoincrement()) @unique
+  author User @relation(fields: [author_id], references: [id])
+  author_id Int
+  post Post @relation(fields: [post_id], references: [id])
+  post_id Int
+  created_at DateTime
+}
+
+model Chat {
+  id Int @id @default(autoincrement()) @unique
+  participants User[]
+  messages Message[]
+  created_at DateTime
+}
+
+model Message {
+  id Int @id @default(autoincrement()) @unique
+  author User @relation(fields: [author_id], references: [id])
+  author_id Int
+  content String
+  chat Chat @relation(fields: [chat_id], references: [id])
+  chat_id Int
+  created_at DateTime
+}
+
+model Comment {
+  id Int @id @default(autoincrement()) @unique
+  content String
+  author User @relation(fields: [author_id], references: [id])
+  author_id Int
+  post Post @relation(fields: [post_id], references: [id])
+  post_id Int
+  created_at DateTime
+}
