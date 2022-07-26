@@ -17,7 +17,6 @@ model Account {
   created_at DateTime
   updated_at DateTime @default(now())
   user User?
-  user_id Int? @unique
 }
 
 model User {
