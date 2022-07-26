@@ -23,6 +23,10 @@ class AuthAccountUseCase {
   }
 
   async execute({email, password}: IAuthAccount): Promise<string> {
+    if (!email || !password) {
+      throw new Error('Missing required fields');
+    }
+
     const userFound = await this.accountRepository.findByEmail(email);
 
     if (!userFound) {

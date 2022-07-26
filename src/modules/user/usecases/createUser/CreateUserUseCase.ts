@@ -21,6 +21,10 @@ class CreateUserUseCase {
     profile_pic,
     account_id,
   }: ICreateUser): Promise<User> {
+    if (!username || !bio || !account_id) {
+      throw new Error('Missing required fields');
+    }
+
     const usernameFound = await this.userRepository.findByUsername(username);
 
     if (usernameFound) {
