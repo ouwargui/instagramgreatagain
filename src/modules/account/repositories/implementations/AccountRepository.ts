@@ -1,5 +1,6 @@
 import {PrismaClient} from '@prisma/client';
 import PrismaRepository from '../../../../db/PrismaRepository';
+import {User} from '../../../user/models/User';
 import {Account} from '../../models/Account';
 import {IAccountRepository, ICreateAccountDTO} from '../IAccountRepository';
 
@@ -20,10 +21,15 @@ class AccountRepository implements IAccountRepository {
     });
   }
 
-  async findByEmail(email: string): Promise<Account | null> {
+  async findByEmail(
+    email: string,
+  ): Promise<(Account & {user: User | null}) | null> {
     return this.db.account.findUnique({
       where: {
         email,
+      },
+      include: {
+        user: true,
       },
     });
   }

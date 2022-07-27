@@ -11,9 +11,12 @@ class AuthAccountController {
   async handle(req: Request, res: Response): Promise<Response> {
     const {email, password} = req.body;
 
-    const result = await this.authAccountUseCase.execute({email, password});
+    const {token, account_found} = await this.authAccountUseCase.execute({
+      email,
+      password,
+    });
 
-    return res.status(200).json({token: result});
+    return res.status(200).json({token, user: account_found});
   }
 }
 

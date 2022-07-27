@@ -1,3 +1,4 @@
+import {User} from '../../user/models/User';
 import {Account} from '../models/Account';
 
 export interface ICreateAccountDTO {
@@ -7,5 +8,5 @@ export interface ICreateAccountDTO {
 
 export interface IAccountRepository {
   createAccount({email, password}: ICreateAccountDTO): Promise<Account>;
-  findByEmail(email: string): Promise<Account | null>;
+  findByEmail(email: string): Promise<(Account & {user: User | null}) | null>;
 }
