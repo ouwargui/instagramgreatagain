@@ -13,7 +13,7 @@ class GetAllFieldsByUserIdController {
 
     const userFound = await this.getAllFieldsByUserIdUseCase.execute(user_id);
 
-    return res.status(200).json(userFound);
+    return res.status(200).json({userFound});
   }
 }
 
