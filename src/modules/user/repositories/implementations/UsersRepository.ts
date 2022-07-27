@@ -32,6 +32,23 @@ class UsersRepository implements IUsersRepository {
       },
     });
   }
+
+  getAllFieldsById(id: string) {
+    return this.db.user.findUnique({
+      where: {
+        id: Number(id),
+      },
+      include: {
+        chats: true,
+        comments: true,
+        followers: true,
+        following: true,
+        likes: true,
+        messages: true,
+        posts: true,
+      },
+    });
+  }
 }
 
 export default UsersRepository;

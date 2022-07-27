@@ -15,4 +15,5 @@ export interface IUsersRepository {
     account_id,
   }: ICreateUserDTO): Promise<User>;
   findByUsername(username: string): Promise<User | null>;
+  getAllFieldsById(id: string): Promise<any>; // TODO: type this
 }
