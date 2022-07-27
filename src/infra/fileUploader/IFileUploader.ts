@@ -7,5 +7,5 @@ export interface File {
 }
 
 export interface IFileUploader {
-  upload: (files: File[]) => Promise<string[] | undefined>;
+  upload: (files: File | File[]) => Promise<string[]>;
 }

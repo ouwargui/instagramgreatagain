@@ -1,4 +1,5 @@
 import {Request, Response} from 'express';
+import {File} from '../../../../infra/fileUploader/IFileUploader';
 import CreateUserUseCase from './CreateUserUseCase';
 
 class CreateUserController {
@@ -9,13 +10,14 @@ class CreateUserController {
   }
 
   async handle(req: Request, res: Response): Promise<Response> {
-    const {username, bio, profile_pic} = req.body;
+    const {username, bio} = req.body;
     const {account_id} = req;
+    const {files} = req.body as {files: File};
 
     const userCreated = await this.createUserUseCase.execute({
       username,
       bio,
-      profile_pic,
+      profile_pic_file: files,
       account_id: Number(account_id),
     });
 

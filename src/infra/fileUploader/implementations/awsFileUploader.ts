@@ -30,20 +30,16 @@ class AWSFileUploader {
     return `${this.bucket}.s3.sa-east-1.amazonaws.com/${fileKey}`;
   }
 
-  async upload(files: File | File[]): Promise<string[] | undefined> {
-    try {
-      if (Array.isArray(files)) {
-        const paths = await Promise.all(
-          files.map(async (file) => this.uploadFile(file)),
-        );
-        return paths;
-      }
-
-      const path = await this.uploadFile(files);
-      return [path];
-    } catch {
-      return undefined;
+  async upload(files: File | File[]): Promise<string[]> {
+    if (Array.isArray(files)) {
+      const paths = await Promise.all(
+        files.map(async (file) => this.uploadFile(file)),
+      );
+      return paths;
     }
+
+    const path = await this.uploadFile(files);
+    return [path];
   }
 }
 
